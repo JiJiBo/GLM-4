@@ -1,7 +1,7 @@
 data_config:
-  train_file: /root/autodl-tmp/baike_qa_train_deal.json
-  val_file: /root/autodl-tmp/baike_qa_valid_deal.json
-  test_file: /root/autodl-tmp/baike_qa_valid_deal.json
+  train_file: baike_qa_train_deal.jsonl
+  val_file: baike_qa_valid_deal.jsonl
+  test_file: baike_qa_valid_deal.jsonl
   num_proc: 1
 
 combine: True
