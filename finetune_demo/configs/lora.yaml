@@ -4,7 +4,7 @@ data_config:
   test_file: dev.jsonl
   num_proc: 1
 
-combine: False
+combine: True
 max_input_length: 512
 max_output_length: 512
 
@@ -36,7 +36,7 @@ training_args:
   predict_with_generate: true
   # see `transformers.GenerationConfig`
   generation_config:
-    max_new_tokens: 512
+    max_new_tokens: 1024
   # set your absolute deepspeed path here
   # deepspeed: configs/ds_zero_3.json
 peft_config:
