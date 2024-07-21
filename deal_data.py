@@ -9,14 +9,14 @@ def all_chinese(chinese):
     return True
 
 
-# path = r"C:\Users\Nas\Downloads\百科类问答json版\baike_qa_valid.json"
-path = r"C:\Users\Nas\Downloads\百科类问答json版\baike_qa_train.json"
+path = r"C:\Users\Nas\Downloads\百科类问答json版\baike_qa_valid.json"
+# path = r"C:\Users\Nas\Downloads\百科类问答json版\baike_qa_train.json"
 # 读取文件
 results = []
 with open(path, 'r', encoding='utf8') as f:
     lines = f.readlines()
     for line in lines:
-        if len(results) > 800000:
+        if len(results) > 100:
             break
         data = json.loads(line)
         title = data["title"]
@@ -31,6 +31,6 @@ with open(path, 'r', encoding='utf8') as f:
             item["messages"] = result
             results.append(item)
 print(len(results))
-with open(r"C:\Users\Nas\Downloads\百科类问答json版\train.jsonl", 'w', encoding='utf8') as f:
+with open(r"C:\Users\Nas\Downloads\百科类问答json版\dev.jsonl", 'w', encoding='utf8') as f:
     for result in results:
         f.write(json.dumps(result, ensure_ascii=False) + '\n')
