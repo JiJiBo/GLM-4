@@ -16,6 +16,8 @@ results = []
 with open(path, 'r', encoding='utf8') as f:
     lines = f.readlines()
     for line in lines:
+        if len(results) > 800000:
+            break
         data = json.loads(line)
         title = data["title"]
         answer = data["answer"]
@@ -28,7 +30,7 @@ with open(path, 'r', encoding='utf8') as f:
             result.append(assistant)
             item["messages"] = result
             results.append(item)
-
+print(len(results))
 with open(r"C:\Users\Nas\Downloads\百科类问答json版\train.jsonl", 'w', encoding='utf8') as f:
     for result in results:
         f.write(json.dumps(result, ensure_ascii=False) + '\n')
