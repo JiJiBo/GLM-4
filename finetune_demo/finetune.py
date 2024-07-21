@@ -257,34 +257,40 @@ def process_batch(
     batched_input_ids = []
     batched_labels = []
     for conv in batched_conv:
-        input_ids = [151331, 151333]
-        loss_masks = [False, False]
-        if combine:
-            new_input_ids = tokenizer.apply_chat_template(conv, tokenize=True, return_dict=False)
-            input_ids = new_input_ids
-            loss_masks = [False] * len(input_ids)
-            last_assistant_index = len(input_ids) - input_ids[::-1].index(151337) - 1
-            for j in range(last_assistant_index + 1, len(input_ids)):
-                loss_masks[j] = True
-        else:
-            for message in conv:
-                message = process_message(message)
-                loss_mask_val = False if message['role'] in ('system', 'user', 'observation') else True
-                new_input_ids = tokenizer.apply_chat_template([message], tokenize=True, return_dict=False)[2:]
-                input_ids += new_input_ids
-                loss_masks += [loss_mask_val] * len(new_input_ids)
+        try:
+            input_ids = [151331, 151333]
+            loss_masks = [False, False]
+            if combine:
+                new_input_ids = tokenizer.apply_chat_template(conv, tokenize=True, return_dict=False)
+                input_ids = new_input_ids
+                loss_masks = [False] * len(input_ids)
 
-        input_ids.append(151336)  # EOS for chat
-        loss_masks = [False, *loss_masks]
-        labels = []
-        for input_id, mask in zip(input_ids, loss_masks):
-            if mask:
-                labels.append(input_id)
+                last_assistant_index = len(input_ids) - input_ids[::-1].index(151337) - 1
+                for j in range(last_assistant_index + 1, len(input_ids)):
+                    loss_masks[j] = True
             else:
-                labels.append(-100)
-        max_length = max_input_length + max_output_length + 1
-        batched_input_ids.append(input_ids[:max_length])
-        batched_labels.append(labels[:max_length])
+                for message in conv:
+                    message = process_message(message)
+                    loss_mask_val = False if message['role'] in ('system', 'user', 'observation') else True
+                    new_input_ids = tokenizer.apply_chat_template([message], tokenize=True, return_dict=False)[2:]
+                    input_ids += new_input_ids
+                    loss_masks += [loss_mask_val] * len(new_input_ids)
+
+            input_ids.append(151336)  # EOS for chat
+            loss_masks = [False, *loss_masks]
+            labels = []
+            for input_id, mask in zip(input_ids, loss_masks):
+                if mask:
+                    labels.append(input_id)
+                else:
+                    labels.append(-100)
+            max_length = max_input_length + max_output_length + 1
+            batched_input_ids.append(input_ids[:max_length])
+            batched_labels.append(labels[:max_length])
+
+        except Exception as e:
+            print(f"Error processing batch: {e}")
+            continue
 
     del batched_conv, conv, input_ids, loss_masks, new_input_ids, labels
     torch.cuda.empty_cache()
