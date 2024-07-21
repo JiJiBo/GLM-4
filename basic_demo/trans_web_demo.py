@@ -55,7 +55,8 @@ def load_model_and_tokenizer(
     return model, tokenizer
 
 
-model, tokenizer = load_model_and_tokenizer(MODEL_PATH, trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained("THUDM/glm-4-9b-chat", trust_remote_code=True, device_map='auto')
+tokenizer = AutoTokenizer.from_pretrained("THUDM/glm-4-9b-chat", trust_remote_code=True, use_fast=False)
 
 
 class StopOnTokens(StoppingCriteria):
