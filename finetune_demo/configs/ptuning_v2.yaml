@@ -1,7 +1,7 @@
 data_config:
-  train_file: baike_qa_train_deal.jsonl
-  val_file: baike_qa_valid_deal.jsonl
-  test_file: baike_qa_valid_deal.jsonl
+  train_file: train.jsonl
+  val_file: dev.jsonl
+  test_file: dev.jsonl
   num_proc: 1
 
 combine: True
