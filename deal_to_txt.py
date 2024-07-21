@@ -12,23 +12,23 @@ def all_chinese(chinese):
 # path = r"C:\Users\Nas\Downloads\百科类问答json版\baike_qa_valid.json"
 path = r"C:\Users\Nas\Downloads\百科类问答json版\baike_qa_train.json"
 # 读取文件
-results = []
+result = []
 with open(path, 'r', encoding='utf8') as f:
     lines = f.readlines()
     for line in lines:
+        if len(result) > 1000:
+            break
         data = json.loads(line)
         title = data["title"]
         answer = data["answer"]
         if len(answer) > 0 and len(title) > 0 and all_chinese(answer) and all_chinese(title):
-            result = []
-            item = {}
-            user = {"role": "user", "content": title}
-            assistant = {"role": "assistant", "content": answer}
+            user = "问：" + title
+            assistant = "答：" + answer
             result.append(user)
+            result.append("\n")
             result.append(assistant)
-            item["messages"] = result
-            results.append(item)
-
-with open(r"C:\Users\Nas\Downloads\百科类问答json版\train.jsonl", 'w', encoding='utf8') as f:
-    for result in results:
-        f.write(json.dumps(result, ensure_ascii=False) + '\n')
+            result.append("\n")
+            result.append("\n")
+end_data = "".join(result)
+with open(r"C:\Users\Nas\Downloads\百科类问答json版\问答对处理.txt", 'w', encoding='utf8') as f:
+    f.write(end_data)
