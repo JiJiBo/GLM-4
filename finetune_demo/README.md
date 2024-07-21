@@ -274,7 +274,7 @@ python finetune_vision.py  data/CogVLM-311K/  THUDM/glm-4v-9b configs/lora.yaml 
 例如，这就是一个从最后一个保存点继续微调的示例代码
 
 ```shell
-python finetune.py  data/AdvertiseGen/  THUDM/glm-4-9b-chat  configs/lora.yaml yes
+python finetune.py  /root/autodl-tmp/  THUDM/glm-4-9b-chat  configs/lora.yaml yes
 ```
 
 ## 使用微调后的模型
