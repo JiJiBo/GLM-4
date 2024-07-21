@@ -4,9 +4,9 @@ data_config:
   test_file: dev.jsonl
   num_proc: 1
 
-combine: True
-max_input_length: 1024
-max_output_length: 1024
+combine: False
+max_input_length: 512
+max_output_length: 512
 
 training_args:
   # see `transformers.Seq2SeqTrainingArguments`
