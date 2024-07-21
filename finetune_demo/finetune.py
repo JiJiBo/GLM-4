@@ -260,7 +260,7 @@ def process_batch(
         input_ids = [151331, 151333]
         loss_masks = [False, False]
         if combine:
-            new_input_ids = tokenizer.apply_chat_template([message], tokenize=True, return_dict=False)[0][2:]
+            new_input_ids = tokenizer.apply_chat_template(conv, tokenize=True, return_dict=False)
             input_ids = new_input_ids
             loss_masks = [False] * len(input_ids)
             last_assistant_index = len(input_ids) - input_ids[::-1].index(151337) - 1
@@ -270,7 +270,7 @@ def process_batch(
             for message in conv:
                 message = process_message(message)
                 loss_mask_val = False if message['role'] in ('system', 'user', 'observation') else True
-                new_input_ids = tokenizer.apply_chat_template([message], tokenize=True, return_dict=False)[2:]
+                new_input_ids = tokenizer.apply_chat_template([message], tokenize=True, return_dict=False)[0][2:]
                 input_ids += new_input_ids
                 loss_masks += [loss_mask_val] * len(new_input_ids)
 
